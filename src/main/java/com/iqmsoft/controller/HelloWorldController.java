@@ -16,8 +16,17 @@ public class HelloWorldController {
 
     @RequestMapping("/")
     public String index() {
-        return "Hello World! From Spring Reactor Flux";
+        return "Hello World! From Spring Reactor Flux" +
+                "<br />" +
+                "<a href=\"test\">test</a>";
     }
 
+    @Bean
+    public RouterFunction<ServerResponse> example(TestHandler testHandler) {
+        return RouterFunctions.route(
+                RequestPredicates.GET("/test")
+                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+                testHandler::hello);
+    }
    
 }
